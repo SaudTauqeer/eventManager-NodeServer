@@ -34,8 +34,25 @@ async function eventIterator(eventsArray, currentUserDateTime) {
           //removes leading zero so both time values must be parsed before comparing.
           const sendingHour = parseInt(eventsArray[i].sendingHour);
           const sendingMinutes = parseInt(eventsArray[i].sendingMinutes);
-          console.log(sendingHour, sendingMinutes);
-      
+          const sendingYear = parseInt(eventsArray[i].year);
+          const sendingMonth = parseInt(eventsArray[i].month);
+          const sendingDay = parseInt(eventsArray[i].day);
+          
+          //email sending
+          const sendingLogic = (
+            sent === false  &&
+            sendingYear === year &&
+            sendingMonth === month &&
+            sendingDay === day &&
+            sendingHour === hour &&
+            sendingMinutes === minutes
+            );
+          
+        if (sendingLogic) {
+          console.log(`sent with the message: ${msg}`);
+        }else {
+          console.log("Searching for match...")
+        }
 
     }
 
@@ -61,7 +78,7 @@ async function  EmailSender  () {
                   userEventLength = userData[i].events.length;
                   //current event iterator.
                    eventIterator(userData[i].events, timeAndDate);
-              
+                   
             
           })
           .catch(err => console.log(err));      
