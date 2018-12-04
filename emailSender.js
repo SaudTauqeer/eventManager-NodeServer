@@ -1,9 +1,11 @@
 const axios = require("axios");
+const Base64 = require('js-base64').Base64;
 // API keys and timezone.
 const ApiRoutePassword = process.env.ALL_USER_DATA_API_ROUTE_PASSWORD;
 const fetchKey = process.env.TIME_API_KEY;
 
-const userDataApi = `http://localhost:3001/api/all/${ApiRoutePassword}`;
+const updateSentStatus = `http://localhost:3001/api/done/${ApiRoutePassword}`; // "/api/done/:pw/:eventId"
+const userDataApi = `http://localhost:3001/api/all/${ApiRoutePassword}`;  // "/api/all/:pw"
 //send grid config
 const sendGridMail = require('@sendgrid/mail');
 sendGridMail.setApiKey(process.env.SENDGRID_API_KEY);   
@@ -21,12 +23,12 @@ async function eventIterator(eventsArray, currentUserDateTime) {
       const minutes = parseInt(currentUserDateTime.slice(14, 16));
       //event message properties such as event name, message, sending time.
         // sendgrid (email sending API takes a msg obj).
+        let html = `<img alt='image' src='${eventsArray[i].cardUrl}' /> <br /> <p>${eventsArray[i].text}<p/>`;
         let msg = {
           to: eventsArray[i].to,
           from: eventsArray[i].from ,
           subject: eventsArray[i].subject,
-          text: eventsArray[i].text,
-          html:  eventsArray[i].cardUrl
+          html:  html,
         }
         // each event has sent status boolean.
           const sent = eventsArray[i].sent;
@@ -47,16 +49,25 @@ async function eventIterator(eventsArray, currentUserDateTime) {
             sendingHour === hour &&
             sendingMinutes === minutes
             );
-          
-        if (sendingLogic) {
-          console.log(`sent with the message: ${msg}`);
-        }else {
-          console.log("Searching for match...")
-        }
 
+
+          if (sendingLogic) {
+            const eventId = eventsArray[i]._id;
+            axios.get(`${updateSentStatus}/${eventId}`)
+            .then(res => {
+              if (res.status === 200){
+                console.log(`status: 200 means okay.`);
+                console.log(`sending ${eventsArray[i].event}`);
+                sendGridMail.send(msg);
+              }
+            })
+            .catch(err =>console.log(err));
     }
+    console.log(`Checking ${eventsArray[i].event}`);
 
-  }
+
+       
+  }}
 
 
 //sends email when date time matches
