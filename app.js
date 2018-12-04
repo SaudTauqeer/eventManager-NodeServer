@@ -6,7 +6,7 @@ const port =  4001;
 //email sending module
 const emailSender = require ("./emailSender");
 
-setInterval(emailSender, 30000);
+setInterval(emailSender, 5000);
 
 
 

@@ -1,59 +1,46 @@
 const axios = require("axios");
 // API keys and timezone.
-const timeZone = "Asia/Karachi";
+const ApiRoutePassword = process.env.ALL_USER_DATA_API_ROUTE_PASSWORD;
 const fetchKey = process.env.TIME_API_KEY;
-const timeApiUrl =`http://api.timezonedb.com/v2.1/get-time-zone?key=${fetchKey}&format=json&by=zone&zone=${timeZone}`;
-const restApi = "http://localhost:3001/api/event";
+
+const userDataApi = `http://localhost:3001/api/all/${ApiRoutePassword}`;
 //send grid config
 const sendGridMail = require('@sendgrid/mail');
 sendGridMail.setApiKey(process.env.SENDGRID_API_KEY);   
 
 
-//sends email when date time matches
-function EmailSender () {
-    axios.all([
-        axios.get(timeApiUrl),
-        axios.get(restApi)
-      ])
-      .then(axios.spread((timeApiRes, restApiRes) => {
-        // do something with both responses
-        const dateAndTime = timeApiRes.data.formatted;
-        //seprated current time and date from https://timezonedb.com/api
-        const year =  parseInt(dateAndTime.slice(0, 4)); 
-        const month = parseInt(dateAndTime.slice(5, 7));
-        const day =   parseInt(dateAndTime.slice(8, 10));
-        const hour =  parseInt(dateAndTime.slice(11, 13));
-        const minutes = parseInt(dateAndTime.slice(14, 16));
-        // Event data api
-        const eventData = restApiRes.data;
-        for (let i = 0; i < eventData.length; i++ ){
-
-            let msg = {
-              to: eventData[i].to,
-              from: eventData[i].from ,
-              subject: eventData[i].subject,
-              text: eventData[i].text,
-              html: eventData[i].html
-            }
-
-            let sendingHour = parseInt(eventData[i].sendingHour);
-            let sendingMinutes = parseInt(eventData[i].sendingMinutes);
-            console.log(` sending hour = ${sendingHour} senidng min = ${sendingMinutes}
-                          hour = ${hour} min = ${minutes}`);
-            //when date time matches.
-            if (sendingHour === hour && sendingMinutes === minutes){
-                  console.log("Sending mail...");
-                  sendGridMail.send(msg)
-                  .catch(err => console.log(`Error: ${err}`))
-                  .then(()=> console.log("Mail sent to "+ msg.to))
-
-            }
-            
-            console.log("Checking for possible match to send mail")          
+async function eventIterator(eventsArray, currentUserDateTime) {
+    for (let i = 0;  i < eventsArray.length; i++) {
+          console.log(currentUserDateTime);
         }
+  }
 
-      }))
-      .catch(err => console.log(`Error occured : ${err}`));
+
+//sends email when date time matches
+async function  EmailSender  () {
+  await axios.get(userDataApi)
+  .then(res =>res.data)
+  .then(userData => {
+    let totalUserLength = userData.length;
+    //iterating all users and get their timezone.
+     for (let i = 0; i < totalUserLength; i++) { 
+        // userzone is an array of objects containing timeZone of the user at 0 index.
+          //currentUserTimze for date and time checking is stored in var.
+          // [i] represents the current user so we can use that to obtain all the needed information.
+          let currentUserTimeZone = userData[i].userZone[0].timeZone;
+          // fetching all users time according to their time zones.
+           axios.get(`http://vip.timezonedb.com/v2.1/get-time-zone?key=${fetchKey}&format=json&by=zone&zone=${currentUserTimeZone}`)
+          .then(res =>  res.data.formatted)
+          .then(timeAndDate => {
+                  userEventLength = userData[i].events.length;
+                  //current event iterator.
+                   eventIterator(userData[i].events, timeAndDate);
+              
+            
+          })
+          .catch(err => console.log(err));      
+    }
+  })
 }
 
 module.exports = EmailSender;
