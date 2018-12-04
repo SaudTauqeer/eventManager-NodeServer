@@ -11,8 +11,34 @@ sendGridMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 async function eventIterator(eventsArray, currentUserDateTime) {
     for (let i = 0;  i < eventsArray.length; i++) {
-          console.log(currentUserDateTime);
+      // [i] represents the current event of the current user.
+      // iterates thru all events of induvidual user.
+      // current date and time from time API.
+      const year =  parseInt(currentUserDateTime.slice(0, 4)); 
+      const month = parseInt(currentUserDateTime.slice(5, 7));
+      const day =   parseInt(currentUserDateTime.slice(8, 10));
+      const hour =  parseInt(currentUserDateTime.slice(11, 13));
+      const minutes = parseInt(currentUserDateTime.slice(14, 16));
+      //event message properties such as event name, message, sending time.
+        // sendgrid (email sending API takes a msg obj).
+        let msg = {
+          to: eventsArray[i].to,
+          from: eventsArray[i].from ,
+          subject: eventsArray[i].subject,
+          text: eventsArray[i].text,
+          html:  eventsArray[i].cardUrl
         }
+        // each event has sent status boolean.
+          const sent = eventsArray[i].sent;
+          //parsing both API current time and sending time 
+          //removes leading zero so both time values must be parsed before comparing.
+          const sendingHour = parseInt(eventsArray[i].sendingHour);
+          const sendingMinutes = parseInt(eventsArray[i].sendingMinutes);
+          console.log(sendingHour, sendingMinutes);
+      
+
+    }
+
   }
 
 
