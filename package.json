@@ -13,6 +13,9 @@
     "js-base64": "^2.4.9",
     "nodemon": "^1.18.6"
   },
+  "scripts": {
+    "start": "node app.js"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
