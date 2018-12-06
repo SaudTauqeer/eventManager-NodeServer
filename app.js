@@ -11,7 +11,8 @@ setInterval(emailSender, 20000);
 
 // route for preventing app from idling on heroku free tier.
 app.get("/node-ping", (req, res)=>{
-    res.send("NodeServer pinged.");
+    const date = new Date().toLocaleString();
+    res.send(`Node js server pinged at ${date}`);
 });
 
 
