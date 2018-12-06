@@ -9,6 +9,13 @@ const emailSender = require ("./emailSender");
 setInterval(emailSender, 20000);
 
 
+// route for preventing app from idling on heroku free tier.
+app.get("/node-ping", (req, res)=>{
+    const date = new Date();
+    res.send(`NodeServer pinged at ${date}`);
+});
+
+
 
 app.listen(port, ()=>{
     console.log("Node server running at " + port);
