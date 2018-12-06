@@ -14,12 +14,9 @@
     "nodemon": "^1.18.6"
   },
   "scripts": {
-    "start": "node app.js"
-  },
-  "devDependencies": {},
-  "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SaudTauqeer/eventReminder-NodeServer.git"
