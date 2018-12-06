@@ -1,0 +1,31 @@
+{
+  "name": "event-reminder-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
+    "axios": "^0.18.0",
+    "dotenv": "^6.1.0",
+    "es6-promise": "^4.2.5",
+    "express": "^4.16.4",
+    "isomorphic-fetch": "^2.2.1",
+    "js-base64": "^2.4.9",
+    "nodemon": "^1.18.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaudTauqeer/eventReminder-NodeServer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SaudTauqeer/eventReminder-NodeServer/issues"
+  },
+  "homepage": "https://github.com/SaudTauqeer/eventReminder-NodeServer#readme"
+}

@@ -1,17 +1,20 @@
 const axios = require("axios");
-const Base64 = require('js-base64').Base64;
+
 // API keys and timezone.
 const ApiRoutePassword = process.env.ALL_USER_DATA_API_ROUTE_PASSWORD;
 const fetchKey = process.env.TIME_API_KEY;
 
-const updateSentStatus = `http://localhost:3001/api/done/${ApiRoutePassword}`; // "/api/done/:pw/:eventId"
-const userDataApi = `http://localhost:3001/api/all/${ApiRoutePassword}`;  // "/api/all/:pw"
+const updateSentStatus = `http://eventmanager-web-api.herokuapp.com/api/done/${ApiRoutePassword}`; // "/api/done/:pw/:eventId"
+const userDataApi = `http://eventmanager-web-api.herokuapp.com/api/all/${ApiRoutePassword}`;  // "/api/all/:pw"
 //send grid config
 const sendGridMail = require('@sendgrid/mail');
 sendGridMail.setApiKey(process.env.SENDGRID_API_KEY);   
 
 
 async function eventIterator(eventsArray, currentUserDateTime) {
+  if (eventsArray.length === 0 || undefined) {
+    console.log("No event in database...Waiting for event to be added.");
+  }
     for (let i = 0;  i < eventsArray.length; i++) {
       // [i] represents the current event of the current user.
       // iterates thru all events of induvidual user.
@@ -63,7 +66,7 @@ async function eventIterator(eventsArray, currentUserDateTime) {
             })
             .catch(err =>console.log(err));
     }
-    console.log(`Checking ${eventsArray[i].event}`);
+    console.log(`Checking Event named:  ${eventsArray[i].event}`);
 
 
        
