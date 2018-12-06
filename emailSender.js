@@ -85,6 +85,7 @@ async function  EmailSender  () {
           //currentUserTimze for date and time checking is stored in var.
           // [i] represents the current user so we can use that to obtain all the needed information.
           let currentUserTimeZone = userData[i].userZone[0].timeZone;
+          if (currentUserTimeZone === undefined){ console.log(`user: ${userData[i].username} has not added a timezone yet.`) }
           // fetching all users time according to their time zones.
            axios.get(`http://vip.timezonedb.com/v2.1/get-time-zone?key=${fetchKey}&format=json&by=zone&zone=${currentUserTimeZone}`)
           .then(res =>  res.data.formatted)
