@@ -84,6 +84,7 @@ async function  EmailSender  () {
         // userzone is an array of objects containing timeZone of the user at 0 index.
           //currentUserTimze for date and time checking is stored in var.
           // [i] represents the current user so we can use that to obtain all the needed information.
+          if (userData[i].userZone.length !== 0) {
           let currentUserTimeZone = userData[i].userZone[0].timeZone;
           // fetching all users time according to their time zones.
            axios.get(`http://vip.timezonedb.com/v2.1/get-time-zone?key=${fetchKey}&format=json&by=zone&zone=${currentUserTimeZone}`)
@@ -97,7 +98,8 @@ async function  EmailSender  () {
           })
           .catch(err => console.log(err));      
     }
-  })
+  }
+  }).catch(err => console.log(err));
 }
 
 module.exports = EmailSender;
