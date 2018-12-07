@@ -11,7 +11,7 @@ const sendGridMail = require('@sendgrid/mail');
 sendGridMail.setApiKey(process.env.SENDGRID_API_KEY);   
 
 
-async function eventIterator(eventsArray, currentUserDateTime) {
+ function eventIterator(eventsArray, currentUserDateTime) {
   if (eventsArray.length === 0 || undefined) {
     console.log("No event in database...Waiting for event to be added.");
   }
