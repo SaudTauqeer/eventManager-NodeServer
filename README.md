@@ -1,6 +1,6 @@
 # Event Manager NodeJs Server
 
-This is the node js server portion of the web app. This server handles the emailSending functionality.
+This is the node.js server portion of the web app. This server handles the emailSending functionality.
 
 ## Live Project
 http://eventmanager-web.herokuapp.com
@@ -11,9 +11,9 @@ http://eventmanager-web.herokuapp.com
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
-Envoirnment variables:
-* `TIME_API_KEY` From https://timezonedb.com/api
-* `SENDGRID_API_KEY` From https://sendgrid.com
+Environment variables:
+* `TIME_API_KEY` from https://timezonedb.com/api
+* `SENDGRID_API_KEY` from https://sendgrid.com
 * `ALL_USER_DATA_API_ROUTE_PASSWORD` This password should match with the REST api password.
 
 
@@ -34,20 +34,20 @@ Run `npm i` or `npm install` in the terminal.
   }
 ```
 Wait for the dependencies to install.
-Then put `node app.js` in the root directory to get the app running.
+Then run `node app.js` in the root directory to get the app running.
 After running the server you will see `Node server running at PORT`.
 
 ## More Details
 Checking all users for a match.
- * This server basically iterates through all users registered on the web app. Fetches their current date time dynamically according to their timezone.
-  When there is a match it executes a `.send` request using `msg` object on `sendGridApi` containg information about the event. All events contain a object named `sent[default: false]`.
-  After event is sent with a returning  status code `200`, the current event sent object now contains an updated `sent: true` object.
-  Now if you have a successfully configured the API, added envoirnment variables and there is atleast one event added wait to be execute.
+ * This server basically iterates through all users registered on the web app and fetches their current date/time dynamically according to their timezone.
+  When there is a match it executes a `.send` request using `msg` object on `sendGridApi` containing information about the event. All events contain an object named `sent[default: false]`.
+  After the event is sent with a returning  status code `200`, the current event sent object now contains an updated `sent: true` object.
+  Now if you have successfully configured the API and added environment variables, then there is at least one event added waiting to be executed.
 
- ## Response if there is a event in the data base
+ ## Response if there is a event in the database
 ![event](https://raw.githubusercontent.com/SaudTauqeer/eventReminder-NodeServer/master/sendingMessageDemo.png)
 
- ## Response if there is no event in the data base
+ ## Response if there is no event in the database
 ![no event](https://raw.githubusercontent.com/SaudTauqeer/eventReminder-NodeServer/master/NoEventDemo.png)
 
 
@@ -57,12 +57,12 @@ Checking all users for a match.
 * **Saud Tauqeer** - (https://github.com/SaudTauqeer)
 
 ## Fixes
-At first it was intened for my personal use only hence no handling user data -> commit  : 38538addf0a4a464673a4c534ae431d12d91f017. But then i decided to make it user oriented.
+At first, it was intended for my personal use only, hence nothing was done about handling user data -> commit  : 38538addf0a4a464673a4c534ae431d12d91f017. But then i decided to make it user-oriented.
 Hence -> commit : 38538addf0a4a464673a4c534ae431d12d91f017. Using Async/Await.
 Possibly better structure with try catch but sticking with promises for now.
 
 
 ## License
 
-This project is licensed under the MIT License
+This project is licensed under the MIT License.
 
