@@ -26,7 +26,7 @@ sendGridMail.setApiKey(process.env.SENDGRID_API_KEY);
       const minutes = parseInt(currentUserDateTime.slice(14, 16));
       //event message properties such as event name, message, sending time.
         // sendgrid (email sending API takes a msg obj).
-        let html = `<img alt='image' src='${eventsArray[i].cardUrl}' /> <br /> <p>${eventsArray[i].text}<p/>`;
+        let html = `<img  src='${eventsArray[i].cardUrl}' /> <br /> <p>${eventsArray[i].text}<p/>`;
         let msg = {
           to: eventsArray[i].to,
           from: eventsArray[i].from ,
