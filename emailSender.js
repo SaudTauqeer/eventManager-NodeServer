@@ -4,6 +4,7 @@ const axios = require("axios");
 const ApiRoutePassword = process.env.ALL_USER_DATA_API_ROUTE_PASSWORD;
 const fetchKey = process.env.TIME_API_KEY;
 
+const timeApiUri = "http://api.timezonedb.com/v2.1/get-time-zone";
 const updateSentStatus = `http://eventmanager-web-api.herokuapp.com/api/done/${ApiRoutePassword}`; // "/api/done/:pw/:eventId"
 const userDataApi = `http://eventmanager-web-api.herokuapp.com/api/all/${ApiRoutePassword}`;  // "/api/all/:pw"
 //send grid config
@@ -87,7 +88,7 @@ async function  EmailSender  () {
           if (userData[i].userZone.length !== 0) {
           let currentUserTimeZone = userData[i].userZone[0].timeZone;
           // fetching all users time according to their time zones.
-           axios.get(`http://vip.timezonedb.com/v2.1/get-time-zone?key=${fetchKey}&format=json&by=zone&zone=${currentUserTimeZone}`)
+           axios.get(`${timeApiUri}?key=${fetchKey}&format=json&by=zone&zone=${currentUserTimeZone}`)
           .then(res =>  res.data.formatted)
           .then(timeAndDate => {
                   userEventLength = userData[i].events.length;
